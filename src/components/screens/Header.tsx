@@ -1,7 +1,8 @@
 import Feather from "@expo/vector-icons/Feather"
 import { router } from "expo-router"
-import { Pressable, StyleSheet, Text, View } from "react-native"
+import { Pressable, StyleSheet, View } from "react-native"
 import colors from "#/lib/light"
+import PLText from "../PLText"
 
 const ICON_SIZE = 20
 const ICON_COLOR = colors.blue["05"]
@@ -19,7 +20,7 @@ export default function Header() {
         <View />
       )}
 
-      <Text style={styles.title}>پوول</Text>
+      <PLText style={styles.title}>پوول</PLText>
 
       <View />
     </View>

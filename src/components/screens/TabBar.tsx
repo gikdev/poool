@@ -1,12 +1,10 @@
 import Feather from "@expo/vector-icons/Feather"
-import { Link, useSegments } from "expo-router"
+import { router, useSegments } from "expo-router"
 import React, { type ComponentProps } from "react"
-import { Text, View } from "react-native"
+import { View } from "react-native"
 import { Pressable, StyleSheet } from "react-native"
 import colors from "#/lib/light"
-
-const PRIMARY_COLOR = colors.blue["10"]
-const NEUTRAL_COLOR = colors.slate["09"]
+import PLText from "../PLText"
 
 interface Tab {
   id: number
@@ -31,19 +29,20 @@ export default function TabBar() {
         const isActive = activeRoute === tab.href
 
         return (
-          <Link key={tab.id} href={tab.href} asChild>
-            <Pressable style={{ ...styles.tab, ...(isActive ? styles.activeTab : {}) }}>
-              <Feather
-                size={24}
-                name={tab.iconName}
-                color={isActive ? PRIMARY_COLOR : NEUTRAL_COLOR}
-              />
-
-              <Text style={{ color: isActive ? PRIMARY_COLOR : NEUTRAL_COLOR, fontSize: 14 }}>
-                {tab.text}
-              </Text>
-            </Pressable>
-          </Link>
+          <Pressable
+            key={tab.id}
+            onPress={() => router.push(tab.href)}
+            style={[styles.tab, isActive ? styles.activeTab : {}]}
+          >
+            <Feather
+              size={24}
+              name={tab.iconName}
+              style={[styles.icon, isActive ? styles.activeIcon : {}]}
+            />
+            {isActive && (
+              <PLText style={[styles.text, isActive ? styles.activeText : {}]}>{tab.text}</PLText>
+            )}
+          </Pressable>
         )
       })}
     </View>
@@ -52,23 +51,32 @@ export default function TabBar() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    flexDirection: "row",
     backgroundColor: colors.blue["02"],
     borderTopColor: "lightgray",
     borderTopWidth: 1,
+    flexDirection: "row",
     gap: 16,
-    paddingHorizontal: 16,
+    height: 60,
   },
   tab: {
-    paddingHorizontal: 8,
-    paddingTop: 8,
-    paddingBottom: 4,
+    gap: 4,
     flex: 1,
+    flexDirection: "row",
     alignItems: "center",
-    borderTopWidth: 4,
-    borderTopColor: "transparent",
+    justifyContent: "center",
+  },
+  icon: {},
+  text: {
+    fontSize: 16,
+    fontFamily: "VazirmatnBold",
   },
   activeTab: {
-    borderTopColor: PRIMARY_COLOR,
+    backgroundColor: colors.blue["09"],
+  },
+  activeIcon: {
+    color: colors.blue["01"],
+  },
+  activeText: {
+    color: colors.blue["01"],
   },
 })

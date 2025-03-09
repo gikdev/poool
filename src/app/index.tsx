@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, View } from "react-native"
+import PLText from "#/components/PLText"
 
 export default function HomePage() {
   return (
     <View style={styles.container}>
-      <Text style={styles.msg}>خوش اومدی!</Text>
+      <PLText style={styles.msg}>خوش اومدی!</PLText>
     </View>
   )
 }

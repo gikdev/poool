@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, View } from "react-native"
+import PLText from "#/components/PLText"
 
 export default function BudgetsPage() {
   return (
     <View style={styles.container}>
-      <Text style={styles.msg}>بودجه</Text>
+      <PLText style={styles.msg}>بودجه</PLText>
     </View>
   )
 }

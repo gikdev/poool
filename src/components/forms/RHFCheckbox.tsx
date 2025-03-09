@@ -1,7 +1,7 @@
 import { useController } from "react-hook-form"
 import PLText from "../PLText"
-import PLCheckbox from "./PLCheckbox"
 import InputLabeler, { type InputLabelerProps } from "./InputLabeler"
+import PLCheckbox from "./PLCheckbox"
 
 export interface RHFCheckboxProps extends InputLabelerProps {
   name: string

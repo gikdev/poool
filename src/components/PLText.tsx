@@ -1,6 +1,6 @@
-import colors from "#/lib/light"
 import type { ComponentProps } from "react"
 import { Text } from "react-native"
+import colors from "#/lib/light"
 
 export interface PLTextProps extends ComponentProps<typeof Text> {
   fontSize?: number

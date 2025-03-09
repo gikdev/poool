@@ -1,10 +1,10 @@
 import Feather from "@expo/vector-icons/Feather"
-import colors from "#/lib/light"
-import { Pressable, StyleSheet, View } from "react-native"
-import PLText from "./PLText"
 import { useState } from "react"
+import { Pressable, StyleSheet, View } from "react-native"
 import { persianizeStr } from "#/lib/helpers"
+import colors from "#/lib/light"
 import type { Expense } from "#/schema/Expense"
+import PLText from "./PLText"
 
 export interface ExpenseCardProps {
   expense: Expense

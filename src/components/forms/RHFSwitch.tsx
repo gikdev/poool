@@ -1,7 +1,7 @@
 import { useController } from "react-hook-form"
 import PLText from "../PLText"
-import PLSwitch from "./PLSwitch"
 import InputLabeler, { type InputLabelerProps } from "./InputLabeler"
+import PLSwitch from "./PLSwitch"
 
 export interface RHFSwitchProps extends InputLabelerProps {
   name: string

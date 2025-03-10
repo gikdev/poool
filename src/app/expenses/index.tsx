@@ -1,28 +1,20 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { router } from "expo-router"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
 import Btn from "#/components/Btn"
 import ExpenseCard from "#/components/ExpenseCard"
 import PLText from "#/components/PLText"
 import colors from "#/lib/light"
-import type { Expense } from "#/schema/Expense"
+import { ExpensesService as ES, type Expense } from "#/services/expenses"
 
 export default function ExpensesPage() {
   const [expenses, setExpenses] = useState<Expense[]>([])
 
-  useEffect(() => {
-    async function fetchExpenses() {
-      try {
-        const strData = await AsyncStorage.getItem("EXPENSES")
-        const parsedExpenses: Expense[] = strData ? JSON.parse(strData) : []
-        setExpenses(parsedExpenses)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    fetchExpenses()
+  const loadExpenses = useCallback(() => {
+    ES.fetchExpenses("newest-first").then(setExpenses)
   }, [])
+
+  useEffect(loadExpenses, [])
 
   return (
     <View style={styles.container}>
@@ -36,7 +28,7 @@ export default function ExpensesPage() {
 
       <ScrollView contentContainerStyle={styles.expenses}>
         {expenses.length ? (
-          expenses.map(e => <ExpenseCard key={e.id} expense={e} />)
+          expenses.map(e => <ExpenseCard reloadExpenses={loadExpenses} key={e.id} expense={e} />)
         ) : (
           <PLText style={{ textAlign: "center" }}>مثل اینکه خبری نیست...</PLText>
         )}

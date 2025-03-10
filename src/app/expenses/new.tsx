@@ -9,25 +9,20 @@ import BtnsControl from "#/components/forms/BtnsControl"
 import RHFDropdown from "#/components/forms/RHFDropdown"
 import RHFInput from "#/components/forms/RHFInput"
 import colors from "#/lib/light"
-import { CurrencyEnum, type Expense, type ExpenseInput, ExpenseInputSchema } from "#/schema/Expense"
+import {
+  CurrencyEnum,
+  type Expense,
+  type ExpenseInput,
+  ExpenseInputSchema,
+  ExpensesService,
+} from "#/services/expenses"
 
 const goToExpensesPage = () => router.push("/expenses")
 
-const handleNextStep: SubmitHandler<ExpenseInput> = async expense => {
-  try {
-    const id = uid()
-    const createdAt = new Date().toISOString()
-    const newExpense: Expense = { ...expense, id, createdAt }
-    const strData = await AsyncStorage.getItem("EXPENSES")
-    const expenses: Expense[] = strData ? JSON.parse(strData) : []
-    expenses.push(newExpense)
-
-    await AsyncStorage.setItem("EXPENSES", JSON.stringify(expenses))
-
-    goToExpensesPage()
-  } catch (err) {
-    console.log(err)
-  }
+const handleNextStep: SubmitHandler<ExpenseInput> = async expenseInput => {
+  const expense = ExpensesService.createExpense(expenseInput)
+  await ExpensesService.saveNewExpense(expense)
+  goToExpensesPage()
 }
 
 export default function ServiceCCNIPersonalInfoForm() {

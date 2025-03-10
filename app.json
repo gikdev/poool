@@ -17,6 +17,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "ir.bahrami85.poool",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

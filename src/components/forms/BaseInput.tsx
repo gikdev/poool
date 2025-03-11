@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react"
+import type { CSSProperties, ComponentProps } from "react"
 import type { FieldError } from "react-hook-form"
 import { StyleSheet, TextInput } from "react-native"
 import colors from "#/lib/light"
@@ -6,9 +6,17 @@ import colors from "#/lib/light"
 export interface BaseInputProps extends ComponentProps<typeof TextInput> {
   dir?: "ltr" | "rtl"
   error?: FieldError
+  numberMode?: boolean
+  css?: CSSProperties
 }
 
-export default function BaseInput({ dir = "rtl", error, ...other }: BaseInputProps) {
+export default function BaseInput({
+  dir = "rtl",
+  error,
+  numberMode = false,
+  css,
+  ...other
+}: BaseInputProps) {
   return (
     <TextInput
       {...other}

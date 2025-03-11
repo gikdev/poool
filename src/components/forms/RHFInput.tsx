@@ -32,6 +32,7 @@ export default function FKRHFInput({
       labelStyle={labelStyle}
     >
       <BaseInput
+        numberMode={numberMode}
         value={value}
         onChangeText={t => onChange(numberMode ? Number(t) : t)}
         onBlur={onBlur}

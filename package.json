@@ -1,6 +1,7 @@
 {
   "name": "poool",
   "version": "1.0.0",
+  "imports": {},
   "main": "expo-router/entry",
   "scripts": {
     "check": "biome check --write ./src",

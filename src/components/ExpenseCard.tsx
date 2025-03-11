@@ -1,35 +1,10 @@
 import Feather from "@expo/vector-icons/Feather"
 import { useState } from "react"
-import { Alert, Platform, Pressable, StyleSheet, View } from "react-native"
-import { persianizeStr, universalAlert } from "#/lib/helpers"
+import { Pressable, StyleSheet, View } from "react-native"
+import { persianizeStr, universalDangerousConfirm } from "#/lib/helpers"
 import colors from "#/lib/light"
-import { type Expense, ExpensesService } from "#/services/expenses"
+import { type Expense, ExpensesService } from "#/services/expense"
 import PLText from "./PLText"
-
-function showDeletionConfirmationDialog(onAccepted: () => void, onRefused?: () => void) {
-  const title = "مطمئنی که میخوای اینو پاک کنی؟"
-  const description = "این عملیات قابل برگشت نیست..."
-
-  if (Platform.OS === "web") {
-    const confirmed = confirm(`${title}\n${description}`)
-    if (confirmed) onAccepted()
-    else onRefused?.()
-
-    return
-  }
-
-  Alert.alert(title, description, [
-    {
-      text: "نه!",
-      onPress: onRefused,
-      style: "cancel",
-    },
-    {
-      text: "پاک کن!",
-      onPress: onAccepted,
-    },
-  ])
-}
 
 export interface ExpenseCardProps {
   expense: Expense
@@ -41,7 +16,7 @@ export default function ExpenseCard({ expense, reloadExpenses }: ExpenseCardProp
   const { amount, budgetId, createdAt, description, title, id } = expense
 
   function deleteExpense() {
-    showDeletionConfirmationDialog(async () => {
+    universalDangerousConfirm(async () => {
       await ExpensesService.removeExpense(id)
       reloadExpenses()
     })

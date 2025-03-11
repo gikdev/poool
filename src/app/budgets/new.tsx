@@ -1,33 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { router } from "expo-router"
 import { FormProvider, type SubmitHandler, useForm } from "react-hook-form"
 import { ScrollView, StyleSheet } from "react-native"
-import uid from "tiny-uid"
 import PLText from "#/components/PLText"
 import BtnsControl from "#/components/forms/BtnsControl"
-import RHFDropdown from "#/components/forms/RHFDropdown"
 import RHFInput from "#/components/forms/RHFInput"
 import colors from "#/lib/light"
-import {
-  CurrencyEnum,
-  type Expense,
-  type ExpenseInput,
-  ExpenseInputSchema,
-  ExpensesService,
-} from "#/services/expense"
+import { type BudgetInput, BudgetInputSchema, BudgetsService } from "#/services/Budget"
 
-const goToExpensesPage = () => router.push("/expenses")
+const goToExpensesPage = () => router.push("/budgets")
 
-const handleNextStep: SubmitHandler<ExpenseInput> = async expenseInput => {
-  const expense = ExpensesService.createExpense(expenseInput)
-  await ExpensesService.saveNewExpense(expense)
+const handleNextStep: SubmitHandler<BudgetInput> = async budgetInput => {
+  const budget = BudgetsService.createBudget(budgetInput)
+  await BudgetsService.saveNewBudget(budget)
   goToExpensesPage()
 }
 
-export default function NewExpenseForm() {
+export default function NewBudgetForm() {
   const form = useForm({
-    resolver: zodResolver(ExpenseInputSchema),
+    resolver: zodResolver(BudgetInputSchema),
   })
 
   return (
@@ -35,18 +26,11 @@ export default function NewExpenseForm() {
       contentContainerStyle={{ padding: 16, flexGrow: 1, gap: 32 }}
       keyboardShouldPersistTaps="handled"
     >
-      <PLText style={styles.title}>ثبت خرجی جدید</PLText>
+      <PLText style={styles.title}>ثبت بودجه جدید</PLText>
 
       <FormProvider {...form}>
-        <RHFInput dir="rtl" name="title" label="نام خرجی" />
-        <RHFInput dir="ltr" numberMode name="amount" label="مقدار" />
-        <RHFInput dir="ltr" name="budgetId" label="آی‌دی بودجه" />
-        <RHFDropdown
-          label="واحد پول"
-          name="currency"
-          placeholder={{ label: "یک مورد را انتخاب کنید...", value: "" }}
-          items={[{ label: "تومان", value: CurrencyEnum.Values.IRT }]}
-        />
+        <RHFInput dir="rtl" name="title" label="نام بودجه" />
+        <RHFInput dir="ltr" numberMode name="amount" label="مقدار فعلی" />
         <RHFInput
           multiline
           dir="rtl"
@@ -55,6 +39,7 @@ export default function NewExpenseForm() {
           name="description"
           label="توضیحات"
         />
+        <PLText>{Object.keys(form.formState.errors).join(" ")}</PLText>
       </FormProvider>
 
       <BtnsControl

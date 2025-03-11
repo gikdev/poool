@@ -2,33 +2,34 @@ import { router } from "expo-router"
 import { useCallback, useEffect, useState } from "react"
 import { ScrollView, StyleSheet, View } from "react-native"
 import Btn from "#/components/Btn"
-import ExpenseCard from "#/components/ExpenseCard"
+import BudgetCard from "#/components/BudgetCard"
 import PLText from "#/components/PLText"
 import colors from "#/lib/light"
-import { ExpensesService as ES, type Expense } from "#/services/expense"
+import { type Budget, BudgetsService } from "#/services/Budget"
 
-export default function ExpensesPage() {
-  const [expenses, setExpenses] = useState<Expense[]>([])
+export default function BudgetsPage() {
+  const [budgets, setBudgets] = useState<Budget[]>([])
 
-  const loadExpenses = useCallback(() => {
-    ES.fetchExpenses("newest-first").then(setExpenses)
+  const loadBudgets = useCallback(() => {
+    BudgetsService.fetchBudgets().then(setBudgets)
   }, [])
 
-  useEffect(loadExpenses, [])
+  useEffect(loadBudgets, [])
 
   return (
     <View style={styles.container}>
-      <PLText style={styles.title}>خرجی‌ها</PLText>
+      <PLText style={styles.title}>بودجه‌ها</PLText>
 
       <Btn
-        title="ثبت خرجی"
+        title="بودجه جدید"
         style={{ marginBottom: 16 }}
-        onPress={() => router.push("/expenses/new")}
+        themeColor="green"
+        onPress={() => router.push("/budgets/new")}
       />
 
-      <ScrollView contentContainerStyle={styles.expenses}>
-        {expenses.length ? (
-          expenses.map(e => <ExpenseCard reloadExpenses={loadExpenses} key={e.id} expense={e} />)
+      <ScrollView contentContainerStyle={styles.list}>
+        {budgets.length ? (
+          budgets.map(b => <BudgetCard key={b.id} budget={b} reloadBudgets={loadBudgets} />)
         ) : (
           <PLText style={{ textAlign: "center" }}>مثل اینکه خبری نیست...</PLText>
         )}
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 8,
   },
-  expenses: {
+  list: {
     flexGrow: 1,
     gap: 8,
   },
